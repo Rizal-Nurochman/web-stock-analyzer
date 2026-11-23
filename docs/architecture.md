@@ -26,10 +26,10 @@ web-stock-analyzer/
 | Direktori | Tanggung jawab |
 |---|---|
 | `app/market/` | Validasi dan impor CSV, histori OHLCV, serta Bollinger Bands. |
-| `app/news/` | Sinkronisasi RSS, deduplikasi, pemetaan emiten, dan label sentimen. |
+| `app/news/` | Pemantauan berita live dari news sitemap 7 portal, relevansi per emiten, dan sentimen IndoBERT, semuanya di memori (tanpa database). |
 | `frontend/` | Dashboard React dan aset chart lokal. Komponen induk menyimpan emiten aktif, rentang tanggal, dan candle terpilih. Pergantian emiten mengosongkan pilihan candle sebelumnya. |
 | `app/web/` | Route FastAPI, skema respons Pydantic, siklus hidup sinkronisasi, dan penyajian hasil build React. |
-| `tests/` | Pengujian backend dan contoh CSV atau respons RSS kecil untuk menguji impor serta sinkronisasi secara berulang. |
+| `tests/` | Pengujian backend, contoh CSV kecil, serta sitemap dan artikel tiruan untuk menguji pemantauan berita tanpa internet. |
 | `data/` | CSV sumber untuk impor histori di laptop presentasi. |
 
 Saat implementasi, `app/web/main.py` merangkai router harga dan berita dengan `APIRouter`. Router memanggil `app/market` atau `app/news`. Kedua paket dapat diuji langsung tanpa menjalankan server HTTP. Akses penyimpanan per fitur ditempatkan bersama fitur tersebut.
@@ -43,14 +43,18 @@ Pembagian ini mengikuti pola paket dan router FastAPI serta hierarki komponen da
 ```mermaid
 flowchart LR
     CSV[CSV gabungan] --> Market[Impor dan indikator]
-    RSS[ANTARA Finansial, ANTARA Bursa, detikFinance] --> News[Sinkronisasi, pemetaan, dan sentimen]
+    NewsSites[News sitemap 7 portal] --> News[Relevansi + sentimen IndoBERT di memori]
+    YahooFund[Yahoo timeseries + quoteSummary + dividen] --> Fund[Metrik fundamental, cache memori 6 jam]
+    Fund --> API
     Market --> DB[(PostgreSQL lokal)]
-    News --> DB
+    News --> API
     DB <--> API[FastAPI]
     API --> Web[Dashboard React]
 ```
 
 ### Harga
+
+Sumber utama adalah endpoint chart Yahoo Finance untuk simbol `.JK` (`app/market/yahoo.py`, `app/market/sync.py`). Sinkronisasi berjalan lewat lifespan saat startup lalu tiap jam, berurutan per emiten dengan jeda 1 detik. Hari libur bursa (candle datar bervolume 0) dibuang, High/Low yang tidak konsisten dikoreksi, dan candle hari ini baru disimpan setelah 16.15 WIB. Setiap emiten diganti seluruh serinya dalam satu transaksi; respons yang jauh lebih pendek dari data tersimpan ditolak. Status per emiten disimpan di `price_sync_status`. CSV tetap bisa diimpor sebagai cadangan tanpa internet.
 
 Validasi skema, nilai OHLCV, dan keunikan pasangan emiten dan tanggal sebelum menulis data dalam satu transaksi. Impor ulang CSV yang sama mempertahankan jumlah baris. Simpan OHLC, Adj Close, dan volume. Hitung SMA 20 sesi dan band pada ±2 standar deviasi sampel dari Close per emiten. Lakukan perhitungan sebelum filter tampilan. Band bernilai `null` selama jendela belum memiliki 20 sesi.
 
@@ -58,11 +62,17 @@ Tampilkan satu emiten dengan rentang bawaan tiga bulan dari tanggal terakhir dat
 
 ### Berita
 
-Baca [ANTARA Finansial](https://www.antaranews.com/rss/ekonomi-finansial.xml), [ANTARA Bursa](https://www.antaranews.com/rss/ekonomi-bursa.xml), dan [detikFinance](https://finance.detik.com/rss). FastAPI mengelola loop sinkronisasi melalui lifespan. Jadwalkan pemeriksaan pertama saat startup tanpa menahan respons dashboard. Ulangi selama aplikasi aktif dengan interval awal 15 menit sesuai ketentuan sumber, cegah putaran tumpang tindih, dan hentikan loop saat shutdown. Validasi izin penyimpanan dan penayangan metadata sebelum integrasi.
+Berita dipantau live dan **tidak disimpan ke database** (`app/news/live.py`). FastAPI menjalankan putaran pemantauan lewat lifespan: saat startup, lalu tiap 5 menit, tanpa putaran tumpang tindih. Setiap putaran membaca news sitemap CNBC Indonesia, Kontan, Katadata, Kompas Money, detikFinance, CNN Indonesia, dan Infobank (portal lain menolak akses otomatis atau hanya dapat diakses sebagian). Judul disaring dulu; hanya artikel kandidat yang diunduh dengan menghormati robots.txt dan jeda per domain. Isi diekstrak, relevansi per emiten ditentukan dengan aturan yang sama dengan pengumpul dataset, lalu model IndoBERT lokal menilai sentimen dari kalimat yang menyebut emiten tersebut.
 
-Simpan judul, sumber, URL, waktu publikasi, dan waktu pengambilan. Gunakan URL kanonis untuk menyatukan artikel lintas kanal. Simpan relasi artikel dengan emiten yang cocok dan label sentimen per relasi. Artikel dengan konteks kurang tampil sebagai **Belum dinilai**. Kegagalan satu feed mempertahankan artikel tersimpan dan status terakhir per feed. Feed lain tetap diproses.
+Hasil disimpan di memori proses selama 7 hari, lalu dibuang. Teks artikel hanya dipegang sampai sentimennya dinilai. Model dimuat di thread latar; artikel yang masuk sebelum model siap dinilai pada putaran berikutnya. Kegagalan satu portal tidak menghentikan portal lain, dan status per portal tampil di dashboard.
 
-Panel berita terbaru mengikuti emiten dan dapat memuat berita setelah batas CSV. Saat candle dipilih, gunakan jendela setelah penutupan sesi sebelumnya hingga penutupan sesi terpilih berdasarkan jadwal bursa. Jika batas sesi atau cakupan arsip belum tersedia, tampilkan status konteks sesi belum tersedia. Konversikan waktu publikasi ke WIB untuk tampilan.
+Panel berita mengikuti emiten aktif. Saat candle dipilih, gunakan jendela setelah penutupan sesi sebelumnya (16.00 WIB) sampai penutupan sesi terpilih. Karena berita hanya ada sejak server berjalan, sesi lama menampilkan status konteks belum tersedia.
+
+### Fundamental
+
+Metrik fundamental diambil dari Yahoo Finance saat panel dibuka (`app/fundamental/`) dan hanya di-cache di memori selama 6 jam; tidak ada yang ditulis ke database. Tiga sumber dipakai: endpoint fundamentals-timeseries untuk laporan keuangan (kuartalan, tahunan, TTM), quoteSummary untuk harga terkini, saham beredar, free float, forward EPS, dan ex date terjadwal, serta event dividen dari endpoint chart untuk dividen TTM. Laporan keuangan sengaja hanya dari timeseries agar definisinya konsisten; modul `financialData` di quoteSummary memakai definisi lain. Field `trailingAnnualDividendRate` tidak dipakai karena kadang 0 walau dividen sudah dibagikan.
+
+Semua rasio dihitung di `app/fundamental/metrics.py` (fungsi murni, diuji dengan fixture BBCA). Annualised = total kuartal tahun berjalan x 4 / jumlah kuartal. Kelipatan valuasi tidak dihitung bila penyebutnya negatif. Pertumbuhan YoY kuartal dan YTD hanya dihitung bila kuartal pembanding ada; Yahoo hanya menyediakan sekitar lima kuartal terakhir dan kadang melompati satu kuartal. Rasio regulasi bank (NPL, CAR, CASA, NIM, cost of credit) tidak tersedia di Yahoo, dan rasio untuk perusahaan nonbank (gross margin, current/quick ratio, DSO/DIO/DPO, EV/EBITDA, ROCE, ROIC) tidak ditampilkan karena tidak bermakna untuk bank. Daftar ini juga tampil di dashboard. Bila Yahoo gagal, data terakhir disajikan dengan status `stale`.
 
 ## Penyimpanan PostgreSQL
 
@@ -71,11 +81,9 @@ FastAPI membaca koneksi PostgreSQL dari `DATABASE_URL`. Jalankan migrasi Alembic
 | Tabel | Kunci dan isi |
 |---|---|
 | `prices` | Pasangan emiten dan tanggal sesi. OHLC, harga penutupan tersesuaikan, dan volume. |
-| `articles` | URL kanonis unik. Judul, tautan asli, penerbit, waktu publikasi dan pengambilan dalam UTC, serta cuplikan jika diizinkan. |
-| `article_tickers` | Pasangan artikel dan emiten. Label sentimen terhadap emiten terkait. |
-| `feed_status` | ID feed. Waktu percobaan dan keberhasilan terakhir, status, dan waktu pengamatan awal untuk menjelaskan keterbatasan arsip. |
+| `price_sync_status` | Emiten. Status, waktu percobaan dan keberhasilan terakhir, sesi final terakhir, serta jumlah hari libur yang dibuang dan baris yang dikoreksi. |
 
-Unduh dan parse respons feed sebelum membuka transaksi tulis. Simpan artikel dan relasi dalam transaksi singkat. Simpan hasil pengambilan sebelum klasifikasi agar artikel tetap bisa dibuka saat penilaian sentimen tertunda. Endpoint hanya membaca hasil yang tersimpan.
+PostgreSQL hanya menyimpan histori harga dan status sinkronisasi harga. Berita dan sentimen tidak pernah ditulis ke database (migrasi `0003` menghapus tabel berita lama).
 
 ## Kontrak API awal
 
@@ -86,6 +94,10 @@ Unduh dan parse respons feed sebelum membuka transaksi tulis. Simpan artikel dan
 | `GET /api/news/{ticker}` | Berita terbaru, waktu publikasi, label sentimen, dan cakupan arsip yang diketahui. |
 | `GET /api/news/{ticker}?session_date=` | Berita dalam jendela sesi yang dipilih dan status cakupan. Bedakan respons kosong dari konteks sesi yang belum tersedia. |
 | `GET /api/feeds/status` | Waktu dan status sinkronisasi per feed. |
+| `POST /api/feeds/sync` | Picu satu putaran sinkronisasi berita (demo). |
+| `GET /api/prices/status` | Status pengambilan harga Yahoo per emiten. |
+| `POST /api/prices/sync` | Picu satu putaran pengambilan harga. |
+| `GET /api/fundamentals/{ticker}?refresh=` | Metrik fundamental per kelompok, tabel per periode, pertumbuhan, dan riwayat dividen. `refresh=true` mengabaikan cache. Status `ok`, `stale`, atau `unavailable`. |
 
 Pydantic memvalidasi parameter dan bentuk respons. Emiten tak dikenal menghasilkan 404. Tanggal tak valid atau rentang terbalik menghasilkan 422. Rentang harga valid tanpa data menghasilkan daftar kosong. Frontend mengabaikan respons lama ketika emiten atau rentang sudah berubah.
 
@@ -98,7 +110,7 @@ Pydantic memvalidasi parameter dan bentuk respons. Emiten tak dikenal menghasilk
 
 1. Buka dashboard lokal, pilih BBCA, dan telusuri 2018–2020. Ubah rentang dan pastikan nilai band pada tanggal yang sama konsisten.
 2. Ganti emiten dan pastikan chart serta berita mengikuti pilihan.
-3. Buktikan sinkronisasi RSS dari sumber asli, periksa tautan dan label artikel, lalu sinkronkan ulang untuk memeriksa duplikat.
+3. Tekan **Cek berita sekarang**, periksa tautan, label sentimen, dan persentase keyakinan artikel dari portal asli; putaran ulang tidak menambah duplikat.
 4. Simulasikan satu feed gagal dan pastikan cache berita dan status per sumber tampil.
 5. Buka hasil build dari FastAPI dengan internet terputus. Pastikan chart, histori, dan artikel yang tersimpan dapat ditampilkan.
 

@@ -1,0 +1,614 @@
+{
+ "BBCA": {
+  "ticker": "BBCA",
+  "histori_tersimpan": {
+   "baris": 5418,
+   "awal": "2004-06-08",
+   "akhir": "2026-11-23"
+  },
+  "kualitas": {
+   "tanggal_duplikat": 0,
+   "ohlc_tidak_konsisten": 0,
+   "volume_nol": 1
+  },
+  "periode": {
+   "awal": "2023-01-02",
+   "akhir": "2026-11-23",
+   "sesi": 926
+  },
+  "harga": {
+   "open_awal": 8575.0,
+   "close_akhir": 5675.0,
+   "perubahan_pct": -33.63,
+   "tertinggi": 10950.0,
+   "tgl_tertinggi": "2024-09-23",
+   "terendah": 4740.0,
+   "tgl_terendah": "2026-10-20",
+   "drawdown_dari_puncak_pct": -48.17,
+   "return_harian_terbesar_pct": 9.71,
+   "tgl_return_terbesar": "2026-06-10",
+   "return_harian_terkecil_pct": -14.81,
+   "tgl_return_terkecil": "2026-10-16",
+   "hari_return_lebih_10pct": 1
+  },
+  "tahunan": {
+   "2023": {
+    "sesi": 239,
+    "close_awal_tahun": 8575.0,
+    "close_akhir": 9400.0,
+    "return_pct": 9.94,
+    "volatilitas_tahunan_pct": 17.47,
+    "rata2_volume_juta": 76.0,
+    "naik": 91,
+    "turun": 109
+   },
+   "2024": {
+    "sesi": 237,
+    "close_awal_tahun": 9400.0,
+    "close_akhir": 9675.0,
+    "return_pct": 2.93,
+    "volatilitas_tahunan_pct": 22.18,
+    "rata2_volume_juta": 80.3,
+    "naik": 101,
+    "turun": 112
+   },
+   "2025": {
+    "sesi": 236,
+    "close_awal_tahun": 9650.0,
+    "close_akhir": 8075.0,
+    "return_pct": -16.54,
+    "volatilitas_tahunan_pct": 29.43,
+    "rata2_volume_juta": 130.2,
+    "naik": 89,
+    "turun": 118
+   },
+   "2026": {
+    "sesi": 214,
+    "close_awal_tahun": 8075.0,
+    "close_akhir": 5675.0,
+    "return_pct": -29.72,
+    "volatilitas_tahunan_pct": 41.39,
+    "rata2_volume_juta": 211.4,
+    "naik": 87,
+    "turun": 107
+   }
+  },
+  "bollinger": {
+   "bandwidth_rata2_pct": 9.49,
+   "bandwidth_median_pct": 7.9,
+   "bandwidth_maks_pct": 37.78,
+   "tgl_bandwidth_maks": "2026-10-30",
+   "bandwidth_min_pct": 1.9,
+   "tgl_bandwidth_min": "2023-07-07",
+   "close_di_atas_upper": 30,
+   "close_di_bawah_lower": 55,
+   "persen_di_atas_upper": 3.2,
+   "persen_di_bawah_lower": 5.9,
+   "close_akhir_vs_band": {
+    "upper": 5873.6,
+    "middle": 5291.0,
+    "lower": 4708.4,
+    "close": 5675.0,
+    "percent_b": 0.83
+   },
+   "return_setelah_sentuhan": {
+    "close_di_bawah_lower_5h": {
+     "kasus": 55,
+     "persen_naik": 60.0,
+     "median_return_pct": 0.99
+    },
+    "close_di_bawah_lower_10h": {
+     "kasus": 55,
+     "persen_naik": 72.7,
+     "median_return_pct": 1.67
+    },
+    "close_di_atas_upper_5h": {
+     "kasus": 29,
+     "persen_naik": 34.5,
+     "median_return_pct": -1.16
+    },
+    "close_di_atas_upper_10h": {
+     "kasus": 29,
+     "persen_naik": 31.0,
+     "median_return_pct": -1.26
+    }
+   }
+  },
+  "volume": {
+   "rata2_juta": 122.2,
+   "median_juta": 89.8,
+   "lonjakan_2x": 64,
+   "lonjakan_hari_turun": 38,
+   "lonjakan_hari_naik": 25,
+   "top5": [
+    {
+     "tanggal": "2026-01-29",
+     "volume_juta": 1433.0,
+     "return_pct": 2.49
+    },
+    {
+     "tanggal": "2026-10-16",
+     "volume_juta": 1241.1,
+     "return_pct": -14.81
+    },
+    {
+     "tanggal": "2026-10-20",
+     "volume_juta": 1131.0,
+     "return_pct": 7.88
+    },
+    {
+     "tanggal": "2026-01-28",
+     "volume_juta": 1027.3,
+     "return_pct": -6.33
+    },
+    {
+     "tanggal": "2026-05-29",
+     "volume_juta": 1014.0,
+     "return_pct": -4.6
+    }
+   ],
+   "spearman_rasio_volume_vs_abs_return": 0.251,
+   "spearman_rasio_volume_vs_bandwidth": -0.093,
+   "n_observasi": 926
+  }
+ },
+ "BBRI": {
+  "ticker": "BBRI",
+  "histori_tersimpan": {
+   "baris": 5554,
+   "awal": "2003-11-10",
+   "akhir": "2026-11-23"
+  },
+  "kualitas": {
+   "tanggal_duplikat": 0,
+   "ohlc_tidak_konsisten": 0,
+   "volume_nol": 2
+  },
+  "periode": {
+   "awal": "2023-01-02",
+   "akhir": "2026-11-23",
+   "sesi": 926
+  },
+  "harga": {
+   "open_awal": 4910.0,
+   "close_akhir": 3070.0,
+   "perubahan_pct": -37.85,
+   "tertinggi": 6450.0,
+   "tgl_tertinggi": "2024-03-13",
+   "terendah": 2460.0,
+   "tgl_terendah": "2026-10-19",
+   "drawdown_dari_puncak_pct": -52.4,
+   "return_harian_terbesar_pct": 9.84,
+   "tgl_return_terbesar": "2026-10-20",
+   "return_harian_terkecil_pct": -14.84,
+   "tgl_return_terkecil": "2026-10-16",
+   "hari_return_lebih_10pct": 2
+  },
+  "tahunan": {
+   "2023": {
+    "sesi": 239,
+    "close_awal_tahun": 4910.0,
+    "close_akhir": 5725.0,
+    "return_pct": 15.89,
+    "volatilitas_tahunan_pct": 21.23,
+    "rata2_volume_juta": 129.9,
+    "naik": 110,
+    "turun": 102
+   },
+   "2024": {
+    "sesi": 237,
+    "close_awal_tahun": 5650.0,
+    "close_akhir": 4080.0,
+    "return_pct": -28.73,
+    "volatilitas_tahunan_pct": 29.17,
+    "rata2_volume_juta": 241.8,
+    "naik": 89,
+    "turun": 118
+   },
+   "2025": {
+    "sesi": 236,
+    "close_awal_tahun": 4100.0,
+    "close_akhir": 3660.0,
+    "return_pct": -10.29,
+    "volatilitas_tahunan_pct": 37.3,
+    "rata2_volume_juta": 236.4,
+    "naik": 90,
+    "turun": 133
+   },
+   "2026": {
+    "sesi": 214,
+    "close_awal_tahun": 3660.0,
+    "close_akhir": 3070.0,
+    "return_pct": -16.12,
+    "volatilitas_tahunan_pct": 38.26,
+    "rata2_volume_juta": 265.0,
+    "naik": 94,
+    "turun": 99
+   }
+  },
+  "bollinger": {
+   "bandwidth_rata2_pct": 12.1,
+   "bandwidth_median_pct": 11.2,
+   "bandwidth_maks_pct": 33.57,
+   "tgl_bandwidth_maks": "2024-05-02",
+   "bandwidth_min_pct": 3.0,
+   "tgl_bandwidth_min": "2023-08-14",
+   "close_di_atas_upper": 42,
+   "close_di_bawah_lower": 51,
+   "persen_di_atas_upper": 4.5,
+   "persen_di_bawah_lower": 5.5,
+   "close_akhir_vs_band": {
+    "upper": 3207.9,
+    "middle": 2909.5,
+    "lower": 2611.1,
+    "close": 3070.0,
+    "percent_b": 0.769
+   },
+   "return_setelah_sentuhan": {
+    "close_di_bawah_lower_5h": {
+     "kasus": 51,
+     "persen_naik": 52.9,
+     "median_return_pct": 0.23
+    },
+    "close_di_bawah_lower_10h": {
+     "kasus": 51,
+     "persen_naik": 51.0,
+     "median_return_pct": 0.45
+    },
+    "close_di_atas_upper_5h": {
+     "kasus": 42,
+     "persen_naik": 57.1,
+     "median_return_pct": 0.56
+    },
+    "close_di_atas_upper_10h": {
+     "kasus": 41,
+     "persen_naik": 43.9,
+     "median_return_pct": 0.0
+    }
+   }
+  },
+  "volume": {
+   "rata2_juta": 216.9,
+   "median_juta": 182.8,
+   "lonjakan_2x": 49,
+   "lonjakan_hari_turun": 30,
+   "lonjakan_hari_naik": 19,
+   "top5": [
+    {
+     "tanggal": "2026-10-19",
+     "volume_juta": 1359.9,
+     "return_pct": -3.79
+    },
+    {
+     "tanggal": "2026-10-16",
+     "volume_juta": 1254.2,
+     "return_pct": -14.84
+    },
+    {
+     "tanggal": "2026-05-29",
+     "volume_juta": 1073.7,
+     "return_pct": -3.91
+    },
+    {
+     "tanggal": "2025-02-28",
+     "volume_juta": 1000.6,
+     "return_pct": -7.44
+    },
+    {
+     "tanggal": "2023-05-31",
+     "volume_juta": 898.5,
+     "return_pct": 1.36
+    }
+   ],
+   "spearman_rasio_volume_vs_abs_return": 0.409,
+   "spearman_rasio_volume_vs_bandwidth": 0.02,
+   "n_observasi": 926
+  }
+ },
+ "BMRI": {
+  "ticker": "BMRI",
+  "histori_tersimpan": {
+   "baris": 5635,
+   "awal": "2003-07-14",
+   "akhir": "2026-11-23"
+  },
+  "kualitas": {
+   "tanggal_duplikat": 0,
+   "ohlc_tidak_konsisten": 0,
+   "volume_nol": 1
+  },
+  "periode": {
+   "awal": "2023-01-02",
+   "akhir": "2026-11-23",
+   "sesi": 926
+  },
+  "harga": {
+   "open_awal": 4962.5,
+   "close_akhir": 3880.0,
+   "perubahan_pct": -21.81,
+   "tertinggi": 7550.0,
+   "tgl_tertinggi": "2024-09-19",
+   "terendah": 3200.0,
+   "tgl_terendah": "2026-10-19",
+   "drawdown_dari_puncak_pct": -48.61,
+   "return_harian_terbesar_pct": 10.24,
+   "tgl_return_terbesar": "2026-06-09",
+   "return_harian_terkecil_pct": -14.82,
+   "tgl_return_terkecil": "2026-10-16",
+   "hari_return_lebih_10pct": 3
+  },
+  "tahunan": {
+   "2023": {
+    "sesi": 239,
+    "close_awal_tahun": 4962.5,
+    "close_akhir": 6050.0,
+    "return_pct": 21.91,
+    "volatilitas_tahunan_pct": 23.88,
+    "rata2_volume_juta": 89.0,
+    "naik": 102,
+    "turun": 93
+   },
+   "2024": {
+    "sesi": 237,
+    "close_awal_tahun": 6050.0,
+    "close_akhir": 5700.0,
+    "return_pct": -5.79,
+    "volatilitas_tahunan_pct": 30.53,
+    "rata2_volume_juta": 106.5,
+    "naik": 95,
+    "turun": 99
+   },
+   "2025": {
+    "sesi": 236,
+    "close_awal_tahun": 5700.0,
+    "close_akhir": 5100.0,
+    "return_pct": -10.53,
+    "volatilitas_tahunan_pct": 37.52,
+    "rata2_volume_juta": 173.6,
+    "naik": 93,
+    "turun": 121
+   },
+   "2026": {
+    "sesi": 214,
+    "close_awal_tahun": 5125.0,
+    "close_akhir": 3880.0,
+    "return_pct": -23.92,
+    "volatilitas_tahunan_pct": 38.45,
+    "rata2_volume_juta": 183.6,
+    "naik": 79,
+    "turun": 116
+   }
+  },
+  "bollinger": {
+   "bandwidth_rata2_pct": 11.73,
+   "bandwidth_median_pct": 10.92,
+   "bandwidth_maks_pct": 34.11,
+   "tgl_bandwidth_maks": "2025-02-19",
+   "bandwidth_min_pct": 2.4,
+   "tgl_bandwidth_min": "2023-01-04",
+   "close_di_atas_upper": 44,
+   "close_di_bawah_lower": 45,
+   "persen_di_atas_upper": 4.8,
+   "persen_di_bawah_lower": 4.9,
+   "close_akhir_vs_band": {
+    "upper": 4022.1,
+    "middle": 3790.0,
+    "lower": 3557.9,
+    "close": 3880.0,
+    "percent_b": 0.694
+   },
+   "return_setelah_sentuhan": {
+    "close_di_bawah_lower_5h": {
+     "kasus": 45,
+     "persen_naik": 57.8,
+     "median_return_pct": 0.81
+    },
+    "close_di_bawah_lower_10h": {
+     "kasus": 45,
+     "persen_naik": 62.2,
+     "median_return_pct": 1.32
+    },
+    "close_di_atas_upper_5h": {
+     "kasus": 44,
+     "persen_naik": 43.2,
+     "median_return_pct": -0.94
+    },
+    "close_di_atas_upper_10h": {
+     "kasus": 44,
+     "persen_naik": 36.4,
+     "median_return_pct": -2.16
+    }
+   }
+  },
+  "volume": {
+   "rata2_juta": 136.9,
+   "median_juta": 110.5,
+   "lonjakan_2x": 57,
+   "lonjakan_hari_turun": 35,
+   "lonjakan_hari_naik": 20,
+   "top5": [
+    {
+     "tanggal": "2026-01-29",
+     "volume_juta": 907.1,
+     "return_pct": 1.54
+    },
+    {
+     "tanggal": "2026-10-16",
+     "volume_juta": 839.1,
+     "return_pct": -14.82
+    },
+    {
+     "tanggal": "2026-10-19",
+     "volume_juta": 779.6,
+     "return_pct": -0.88
+    },
+    {
+     "tanggal": "2025-04-08",
+     "volume_juta": 738.5,
+     "return_pct": -10.19
+    },
+    {
+     "tanggal": "2026-01-28",
+     "volume_juta": 643.8,
+     "return_pct": -5.2
+    }
+   ],
+   "spearman_rasio_volume_vs_abs_return": 0.36,
+   "spearman_rasio_volume_vs_bandwidth": -0.016,
+   "n_observasi": 926
+  }
+ },
+ "BBNI": {
+  "ticker": "BBNI",
+  "histori_tersimpan": {
+   "baris": 5501,
+   "awal": "2003-12-23",
+   "akhir": "2026-11-23"
+  },
+  "kualitas": {
+   "tanggal_duplikat": 0,
+   "ohlc_tidak_konsisten": 0,
+   "volume_nol": 0
+  },
+  "periode": {
+   "awal": "2023-01-02",
+   "akhir": "2026-11-23",
+   "sesi": 926
+  },
+  "harga": {
+   "open_awal": 4612.5,
+   "close_akhir": 3540.0,
+   "perubahan_pct": -23.25,
+   "tertinggi": 6250.0,
+   "tgl_tertinggi": "2024-03-13",
+   "terendah": 2830.0,
+   "tgl_terendah": "2026-10-19",
+   "drawdown_dari_puncak_pct": -43.36,
+   "return_harian_terbesar_pct": 8.97,
+   "tgl_return_terbesar": "2025-03-26",
+   "return_harian_terkecil_pct": -12.9,
+   "tgl_return_terkecil": "2026-10-16",
+   "hari_return_lebih_10pct": 1
+  },
+  "tahunan": {
+   "2023": {
+    "sesi": 239,
+    "close_awal_tahun": 4612.5,
+    "close_akhir": 5375.0,
+    "return_pct": 16.53,
+    "volatilitas_tahunan_pct": 20.93,
+    "rata2_volume_juta": 57.0,
+    "naik": 93,
+    "turun": 118
+   },
+   "2024": {
+    "sesi": 237,
+    "close_awal_tahun": 5375.0,
+    "close_akhir": 4350.0,
+    "return_pct": -19.07,
+    "volatilitas_tahunan_pct": 30.27,
+    "rata2_volume_juta": 57.2,
+    "naik": 85,
+    "turun": 118
+   },
+   "2025": {
+    "sesi": 236,
+    "close_awal_tahun": 4360.0,
+    "close_akhir": 4370.0,
+    "return_pct": 0.46,
+    "volatilitas_tahunan_pct": 38.62,
+    "rata2_volume_juta": 62.0,
+    "naik": 85,
+    "turun": 133
+   },
+   "2026": {
+    "sesi": 214,
+    "close_awal_tahun": 4340.0,
+    "close_akhir": 3540.0,
+    "return_pct": -18.99,
+    "volatilitas_tahunan_pct": 38.83,
+    "rata2_volume_juta": 59.4,
+    "naik": 84,
+    "turun": 116
+   }
+  },
+  "bollinger": {
+   "bandwidth_rata2_pct": 12.44,
+   "bandwidth_median_pct": 11.8,
+   "bandwidth_maks_pct": 28.97,
+   "tgl_bandwidth_maks": "2026-06-10",
+   "bandwidth_min_pct": 2.91,
+   "tgl_bandwidth_min": "2025-11-25",
+   "close_di_atas_upper": 54,
+   "close_di_bawah_lower": 52,
+   "persen_di_atas_upper": 5.8,
+   "persen_di_bawah_lower": 5.6,
+   "close_akhir_vs_band": {
+    "upper": 3694.2,
+    "middle": 3412.0,
+    "lower": 3129.8,
+    "close": 3540.0,
+    "percent_b": 0.727
+   },
+   "return_setelah_sentuhan": {
+    "close_di_bawah_lower_5h": {
+     "kasus": 52,
+     "persen_naik": 51.9,
+     "median_return_pct": 0.39
+    },
+    "close_di_bawah_lower_10h": {
+     "kasus": 52,
+     "persen_naik": 50.0,
+     "median_return_pct": 0.0
+    },
+    "close_di_atas_upper_5h": {
+     "kasus": 53,
+     "persen_naik": 50.9,
+     "median_return_pct": 0.22
+    },
+    "close_di_atas_upper_10h": {
+     "kasus": 52,
+     "persen_naik": 42.3,
+     "median_return_pct": -0.38
+    }
+   }
+  },
+  "volume": {
+   "rata2_juta": 58.9,
+   "median_juta": 49.8,
+   "lonjakan_2x": 67,
+   "lonjakan_hari_turun": 30,
+   "lonjakan_hari_naik": 36,
+   "top5": [
+    {
+     "tanggal": "2023-05-31",
+     "volume_juta": 278.1,
+     "return_pct": 0.28
+    },
+    {
+     "tanggal": "2026-03-25",
+     "volume_juta": 248.0,
+     "return_pct": -7.97
+    },
+    {
+     "tanggal": "2025-03-21",
+     "volume_juta": 246.7,
+     "return_pct": -7.6
+    },
+    {
+     "tanggal": "2026-01-29",
+     "volume_juta": 242.9,
+     "return_pct": -0.45
+    },
+    {
+     "tanggal": "2026-10-16",
+     "volume_juta": 241.3,
+     "return_pct": -12.9
+    }
+   ],
+   "spearman_rasio_volume_vs_abs_return": 0.421,
+   "spearman_rasio_volume_vs_bandwidth": -0.017,
+   "n_observasi": 926
+  }
+ }
+}

@@ -1,0 +1,37 @@
+# Konfigurasi pengumpulan dataset berita perbankan.
+# Ubah nilai di sini atau timpa lewat argumen CLI (lihat: python -m app.dataset.main --help).
+
+[period]
+# Format YYYY-MM-DD, zona waktu Asia/Jakarta, inklusif.
+start = "2023-01-01"
+end = "2026-11-23"
+
+[storage]
+database = "data/banking_news.db"
+exports_dir = "data/exports"
+logs_dir = "data/logs"
+
+[http]
+# Identitas jujur. Jangan diganti menjadi User-Agent peramban untuk melewati blokir.
+user_agent = "BankingNewsResearchBot/0.1 (academic sentiment research; non-commercial)"
+# Jeda minimum antarpermintaan ke domain yang sama. Crawl-delay di robots.txt dipakai jika lebih besar.
+min_interval_seconds = 2.0
+timeout_seconds = 25
+max_retries = 3
+# Hentikan satu portal setelah sekian respons blokir berturut-turut (403/Cloudflare).
+max_consecutive_blocks = 3
+
+[extraction]
+# Artikel dengan isi lebih pendek dari ini dianggap tanpa konten (teaser, paywall, video).
+min_content_chars = 400
+
+[sources]
+# Portal yang dijalankan bila --sources tidak diberikan.
+enabled = [
+  "cnbcindonesia", "kontan", "bisnis", "katadata", "investor", "bareksa",
+  "idxchannel", "kabarbursa", "kompas_money", "detik_finance", "cnnindonesia",
+  "tempo_bisnis", "antara", "mediaindonesia", "liputan6", "republika",
+  "infobank", "finansialku",
+]
+# Jumlah portal yang diproses paralel. Setiap portal tetap berurutan dan dibatasi per domain.
+parallel_sources = 4

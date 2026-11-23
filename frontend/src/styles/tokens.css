@@ -1,0 +1,53 @@
+/*
+ * Token dari Desain.md ("twilight summit command center").
+ * Hanya tema gelap: Desain.md menyatakan sistem ini nokturnal, dan dashboard dipakai
+ * di layar presentasi tempat latar gelap menjaga candle tetap menonjol.
+ */
+:root {
+  color-scheme: dark;
+
+  /* Tumpukan luminans permukaan: Abyss, Midnight, Slate, Carbon, Plum */
+  --abyss: #02030b;
+  --midnight: #04061c;
+  --slate: #0c0a2b;
+  --carbon: #13151f;
+  --plum: #2c2b52;
+
+  --border: #292a4d;
+  --border-soft: #202333;
+  --border-input: #353545;
+
+  --text: #ffffff;
+  --text-2: #b4b4bb;
+  --text-3: #9b9ba4;
+
+  /*
+   * Warna fungsional, maknanya konsisten di seluruh layar:
+   * biru = naik / positif / sumber sehat, koral = turun / negatif / gagal,
+   * violet = nilai turunan atau menunggu (band, Belum dinilai, feed belum dicoba).
+   * Chartreuse dari Desain.md tidak dipakai agar palet tetap 3 warna.
+   */
+  --blue: #3d8bff;
+  --blue-dot: #0067ff;
+  --coral: #ff3a63;
+  --violet: #847dff;
+  --violet-dot: #665eff;
+
+  /* Gradien koral hanya untuk satu tombol aksi utama. Teks gelap agar kontras AA di kedua ujung. */
+  --cta: linear-gradient(135deg, oklch(0.81 0.15 47.92) 0%, oklch(0.69 0.26 16.93) 100%);
+
+  --font-display: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --radius-pill: 30px;
+  --radius-card: 12px;
+  --radius-panel: 20px;
+  --radius-small: 6px;
+
+  --gap: 8px;
+  --pad: 12px;
+  --section-gap: 24px;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --focus: 0 0 0 2px var(--midnight), 0 0 0 4px #8fb8ff;
+}
