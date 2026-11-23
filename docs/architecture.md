@@ -1,6 +1,8 @@
 # Arsitektur MVP
 
-React dan Vite mengelola dashboard dengan Lightweight Charts untuk candlestick, garis band, dan histogram volume. Backend Python menggunakan FastAPI, model Pydantic, dan SQLite. Untuk demo, satu worker Uvicorn di loopback menyajikan hasil build React dan API dari alamat yang sama serta menjalankan sinkronisasi berita selama aplikasi aktif.
+[Requirement produk dan hasil validasi sumber](requirements.md) menjadi acuan cakupan desain ini.
+
+React dan Vite mengelola dashboard dengan Lightweight Charts untuk candlestick, garis band, dan histogram volume. Backend Python menggunakan FastAPI dan model Pydantic. PostgreSQL menyimpan harga dan berita sejak tahap pertama, dengan SQLAlchemy untuk akses data serta Alembic untuk migrasi skema. Untuk demo, satu worker Uvicorn di loopback menyajikan hasil build React dan API dari alamat yang sama serta menjalankan sinkronisasi berita selama aplikasi aktif.
 
 ## Struktur
 
@@ -28,7 +30,7 @@ web-stock-analyzer/
 | `frontend/` | Dashboard React dan aset chart lokal. Komponen induk menyimpan emiten aktif, rentang tanggal, dan candle terpilih. Pergantian emiten mengosongkan pilihan candle sebelumnya. |
 | `app/web/` | Route FastAPI, skema respons Pydantic, siklus hidup sinkronisasi, dan penyajian hasil build React. |
 | `tests/` | Pengujian backend dan contoh CSV atau respons RSS kecil untuk menguji impor serta sinkronisasi secara berulang. |
-| `data/` | CSV sumber dan database lokal di laptop presentasi. |
+| `data/` | CSV sumber untuk impor histori di laptop presentasi. |
 
 Saat implementasi, `app/web/main.py` merangkai router harga dan berita dengan `APIRouter`. Router memanggil `app/market` atau `app/news`. Kedua paket dapat diuji langsung tanpa menjalankan server HTTP. Akses penyimpanan per fitur ditempatkan bersama fitur tersebut.
 
@@ -42,7 +44,7 @@ Pembagian ini mengikuti pola paket dan router FastAPI serta hierarki komponen da
 flowchart LR
     CSV[CSV gabungan] --> Market[Impor dan indikator]
     RSS[ANTARA Finansial, ANTARA Bursa, detikFinance] --> News[Sinkronisasi, pemetaan, dan sentimen]
-    Market --> DB[(SQLite lokal)]
+    Market --> DB[(PostgreSQL lokal)]
     News --> DB
     DB <--> API[FastAPI]
     API --> Web[Dashboard React]
@@ -62,7 +64,9 @@ Simpan judul, sumber, URL, waktu publikasi, dan waktu pengambilan. Gunakan URL k
 
 Panel berita terbaru mengikuti emiten dan dapat memuat berita setelah batas CSV. Saat candle dipilih, gunakan jendela setelah penutupan sesi sebelumnya hingga penutupan sesi terpilih berdasarkan jadwal bursa. Jika batas sesi atau cakupan arsip belum tersedia, tampilkan status konteks sesi belum tersedia. Konversikan waktu publikasi ke WIB untuk tampilan.
 
-## Penyimpanan SQLite
+## Penyimpanan PostgreSQL
+
+FastAPI membaca koneksi PostgreSQL dari `DATABASE_URL`. Jalankan migrasi Alembic sebelum impor CSV pertama atau saat versi skema berubah. Untuk demo, jalankan PostgreSQL di laptop presentasi agar histori dan berita tersimpan dapat dibuka tanpa internet.
 
 | Tabel | Kunci dan isi |
 |---|---|
@@ -88,7 +92,7 @@ Pydantic memvalidasi parameter dan bentuk respons. Emiten tak dikenal menghasilk
 ## Pengembangan dan demo
 
 - **Pengembangan.** Vite menyajikan React dan meneruskan permintaan `/api` ke FastAPI.
-- **Demo.** Build React ke `frontend/dist/`, lalu jalankan Uvicorn dengan satu worker pada alamat lokal. FastAPI melayani halaman dan aset hasil build. Aset chart disertakan dalam build agar histori dan berita tersimpan dapat dibuka saat koneksi internet terputus.
+- **Demo.** Jalankan PostgreSQL lokal, terapkan migrasi, dan pastikan CSV sudah diimpor. Build React ke `frontend/dist/`, lalu jalankan Uvicorn dengan satu worker pada alamat lokal. FastAPI melayani halaman dan aset hasil build. Aset chart disertakan dalam build agar histori dan berita tersimpan dapat dibuka saat koneksi internet terputus.
 
 ## Verifikasi demo
 
